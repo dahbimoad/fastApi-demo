@@ -22,7 +22,7 @@ def create_post(post: schemas.PostCreate, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
     db.commit()
-    db.refresh(new_post)  # Refresh to get the newly generated `id` and `created_at`
+    db.refresh(new_post)
     return new_post
 
 
