@@ -1,5 +1,6 @@
+#this is : schemas.py
 from datetime import datetime
-
+from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 class PostBase(BaseModel):
@@ -39,5 +40,18 @@ class UserOut(BaseModel):
     created_at: datetime
     class Config:
         from_attributes  = True
+
+class UserLogin(UserBase):
+    pass
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
+    exp: Optional[datetime] = None
+
 
 
