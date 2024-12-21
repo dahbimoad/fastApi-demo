@@ -1,3 +1,4 @@
+import os
 
 from fastapi import FastAPI
 from database import Base,engine
@@ -14,7 +15,7 @@ app.include_router(auth.router)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello Worldaaaaa"}
+    return {"message": "Hello Worldaaaaddddsdsadaa"}
 
 
 

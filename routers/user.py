@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 
 from fastapi import  Depends, HTTPException
 from fastapi.routing import  APIRouter
@@ -16,13 +17,42 @@ router = APIRouter(
 
 @router.post("/" ,response_model=schemas.UserOut , status_code=status.HTTP_201_CREATED)
 def register(user: schemas.UserCreate ,db:Session = Depends(get_db)):
-       # hash the password
-        user.password = hash_password(user.password)
-        new_user = models.User(**user.dict())
+    try:
+        # Check if user already exists
+        existing_user = db.query(models.User).filter(models.User.email == user.email).first()
+        if existing_user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already registered"
+            )
+
+        # Hash the password
+        hashed_password = hash_password(user.password)
+
+        # Create new user
+        new_user = models.User(
+            email=user.email,
+            password=hashed_password
+        )
+
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
+
         return new_user
+
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
+        )
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error creating user: {str(e)}"
+        )
 
 
 @router.get("/{id}",response_model=UserOut, status_code=status.HTTP_200_OK)
