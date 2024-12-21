@@ -2,14 +2,12 @@ from http.client import responses
 
 from fastapi import FastAPI, Body, Depends, HTTPException
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.functions import user
 from starlette import status
-
-import schemas
 from database import Base,engine,get_db
+import schemas
 import models
-
-
-
+from utils import hash_password
 
 Base.metadata.create_all(bind=engine)
 
@@ -67,11 +65,22 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 
 #=========================USER==========================================
-@app.post("/users" ,response_model=schemas.User , status_code=status.HTTP_201_CREATED)
+@app.post("/users" ,response_model=schemas.UserOut , status_code=status.HTTP_201_CREATED)
 def register(user: schemas.UserCreate ,db:Session = Depends(get_db)):
+       # hash the password
+        user.password = hash_password(user.password)
+
         new_user = models.User(**user.dict())
+
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
         return new_user
 
+
+@app.get("/user/{id}",response_model=schemas.UserOut,status_code=status.HTTP_200_OK)
+def get_user(id : int , db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == id).first()
+    if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+    return user
