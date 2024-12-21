@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Body
 from sqlalchemy.orm import Session
 
-from database import Base, engine, SessionLocal
+from database import Base,engine,get_db
 import models
 
 
@@ -10,14 +10,6 @@ import models
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 
 @app.get("/")
 async def root():
