@@ -1,10 +1,23 @@
 from fastapi import FastAPI, Body
+from sqlalchemy.orm import Session
 
-from database import Base, engine
+from database import Base, engine, SessionLocal
+import models
+
+
+
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-Base.metadata.create_all(bind=engine)
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 @app.get("/")
 async def root():
