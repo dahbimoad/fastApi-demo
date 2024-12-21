@@ -1,3 +1,5 @@
+from http.client import responses
+
 from fastapi import FastAPI, Body, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
@@ -61,3 +63,15 @@ def delete_post(id: int, db: Session = Depends(get_db)):
     post_query.delete(synchronize_session=False)
     db.commit()
     return {"detail": "Post deleted successfully"}
+
+
+
+#=========================USER==========================================
+@app.post("/users" ,response_model=schemas.User , status_code=status.HTTP_201_CREATED)
+def register(user: schemas.UserCreate ,db:Session = Depends(get_db)):
+        new_user = models.User(**user.dict())
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        return new_user
+
