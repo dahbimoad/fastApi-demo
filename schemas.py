@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class PostBase(BaseModel):
     title: str
@@ -11,10 +11,6 @@ class PostBase(BaseModel):
 class PostCreate(PostBase):
     pass
 
-#class PostUpdate(PostBase):
-
-#class PostDelete(PostBase):
-
 
 # schema for the response that the server sends
 class Post(PostBase):
@@ -22,3 +18,26 @@ class Post(PostBase):
     created_at: datetime
     class Config:
         from_attributes  = True
+
+# =================================USER SCHEMAS=============================
+class UserBase(BaseModel):
+    email: EmailStr
+    password: str
+
+
+
+#request
+class UserCreate(UserBase):
+   pass
+
+
+
+#response form
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    created_at: datetime
+    class Config:
+        from_attributes  = True
+
+
