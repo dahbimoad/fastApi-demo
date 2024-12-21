@@ -31,7 +31,7 @@ def get_posts(db: Session = Depends(get_db)):
 def get_post(
     id: int,
     db: Session = Depends(get_db),
-    current_user: str = Depends(oauth2.get_current_user)
+    current_user: schemas.UserOut = Depends(oauth2.get_current_user)
 ):
     post = db.query(models.Post).filter(models.Post.id == id).first()
     if not post:
