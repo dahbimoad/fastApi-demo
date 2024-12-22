@@ -3,13 +3,11 @@ from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException , status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from dotenv import load_dotenv
-import os
 from sqlalchemy.orm import Session
-import models
-from config import settings
-from database import get_db
-from schemas import TokenData
+import app.models
+from app.core.config import settings
+from app.db.database import get_db
+from app.schemas import TokenData
 
 
 

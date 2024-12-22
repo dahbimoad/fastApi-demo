@@ -1,12 +1,15 @@
 #this is : schemas.py
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, ConfigDict
+
 
 # =================================USER SCHEMAS=============================
 class UserBase(BaseModel):
     email: EmailStr
     password: str
+    model_config = ConfigDict(from_attributes=True)
+
 
 
 
@@ -21,8 +24,8 @@ class UserOut(BaseModel):
     id: int
     email: EmailStr
     created_at: datetime
-    class Config:
-        from_attributes  = True
+    model_config = ConfigDict(from_attributes=True)
+
 
 class UserLogin(UserBase):
     pass
@@ -32,6 +35,8 @@ class PostBase(BaseModel):
     title: str
     content: str
     published: bool = True
+    model_config = ConfigDict(from_attributes=True)
+
 
 # schema for the request that the server gets
 class PostCreate(PostBase):
@@ -44,18 +49,22 @@ class Post(PostBase):
     created_at: datetime
     user_id: int
     owner : UserOut
-    class Config:
-        from_attributes  = True
+    model_config = ConfigDict(from_attributes=True)
+
 
 # =================================TOKEN SCHEMAS=============================
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+    model_config = ConfigDict(from_attributes=True)
+
 
 class TokenData(BaseModel):
     email: Optional[str] = None
     exp: Optional[datetime] = None
+    model_config = ConfigDict(from_attributes=True)
+
 
 
 

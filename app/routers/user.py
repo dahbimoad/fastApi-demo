@@ -4,19 +4,18 @@ from fastapi import  Depends, HTTPException
 from fastapi.routing import  APIRouter
 from sqlalchemy.orm import Session
 from starlette import status
-from database import get_db
-import schemas
-import models
-from schemas import UserOut
-from utils import hash_password
+from app.db.database import get_db
+from app import schemas, models
+from app.schemas import UserOut
+from app.utils import hash_password
 
 router = APIRouter(
     prefix="/users",
     tags=["Users :)"],
 )
 
-@router.post("/" ,response_model=schemas.UserOut , status_code=status.HTTP_201_CREATED)
-def register(user: schemas.UserCreate ,db:Session = Depends(get_db)):
+@router.post("/" , response_model=schemas.UserOut , status_code=status.HTTP_201_CREATED)
+def register(user: schemas.UserCreate, db:Session = Depends(get_db)):
     try:
         # Check if user already exists
         existing_user = db.query(models.User).filter(models.User.email == user.email).first()
