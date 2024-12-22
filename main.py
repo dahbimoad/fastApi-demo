@@ -1,7 +1,7 @@
 #this is : main.py
 from fastapi import FastAPI
-from database import Base,engine
-from routers import user, post, auth
+from app.db.database import Base,engine
+from app.routers import post, auth, user
 
 Base.metadata.create_all(bind=engine)
 
