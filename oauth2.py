@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy.orm import Session
 import models
+from config import settings
 from database import get_db
 from schemas import TokenData
 
@@ -14,16 +15,12 @@ from schemas import TokenData
 
 
 oauth2_scheme = OAuth2PasswordBearer( tokenUrl='login')
-#load .env to this file
-load_dotenv()
 
 
-
-
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
-REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS"))
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.ALGORITHM
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+REFRESH_TOKEN_EXPIRE_DAYS = settings.REFRESH_TOKEN_EXPIRE_DAYS
 
 
 def create_access_token(data: dict):
