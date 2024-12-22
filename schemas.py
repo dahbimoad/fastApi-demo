@@ -3,23 +3,6 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, EmailStr
 
-class PostBase(BaseModel):
-    title: str
-    content: str
-    published: bool = True
-
-# schema for the request that the server gets
-class PostCreate(PostBase):
-    pass
-
-
-# schema for the response that the server sends
-class Post(PostBase):
-    id: int
-    created_at: datetime
-    class Config:
-        from_attributes  = True
-
 # =================================USER SCHEMAS=============================
 class UserBase(BaseModel):
     email: EmailStr
@@ -43,7 +26,28 @@ class UserOut(BaseModel):
 
 class UserLogin(UserBase):
     pass
+# =================================POST SCHEMAS=============================
 
+class PostBase(BaseModel):
+    title: str
+    content: str
+    published: bool = True
+
+# schema for the request that the server gets
+class PostCreate(PostBase):
+    pass
+
+
+# schema for the response that the server sends
+class Post(PostBase):
+    id: int
+    created_at: datetime
+    user_id: int
+    owner : UserOut
+    class Config:
+        from_attributes  = True
+
+# =================================TOKEN SCHEMAS=============================
 
 class Token(BaseModel):
     access_token: str
