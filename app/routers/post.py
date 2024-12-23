@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 from starlette import status
-from app import schemas, models, oauth2
+from app import oauth2, models, schemas
 from app.db.database import get_db
 
 router = APIRouter(
