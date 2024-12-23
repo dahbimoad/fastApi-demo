@@ -17,12 +17,6 @@ app.include_router(auth.router)
 
 @app.get("/")
 async def root():
-    decoded = jwt.decode(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vdWFkZGFoYmlAZ21haWwuY29tIiwiZXhwIjoxNzM0OTE2NTQ3fQ.eQRelIpddLKhI6kVGNjgqWjXnV4gzJa0BS0HZp18FOE",
-        settings.SECRET_KEY,
-        algorithms=[settings.ALGORITHM],
-    )
-    print(decoded)
     return {"message": "Hello World"}
 
 
