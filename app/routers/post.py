@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
 from starlette import status
-from app import schemas, models, oauth2
+from app import oauth2, models, schemas
 from app.db.database import get_db
 
 router = APIRouter(
@@ -43,7 +43,7 @@ def get_post(
 
 # Endpoint: Update an existing post
 @router.put("/{id}", response_model=schemas.Post)
-def update_post(id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db),current_user: schemas.UserOut = Depends(
+def update_post(id: int, updated_post: schemas.PostCreate, db: Session = Depends(get_db), current_user: schemas.UserOut = Depends(
     oauth2.get_current_user)):
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()

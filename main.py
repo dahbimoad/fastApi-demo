@@ -3,8 +3,8 @@ from fastapi import FastAPI
 from jose import jwt
 
 from app.core.config import settings
-from app.db.database import Base,engine
-from app.routers import post, auth, user
+from app.db.database import Base, engine
+from app.routers import auth, user, post
 
 Base.metadata.create_all(bind=engine)
 

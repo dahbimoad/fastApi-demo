@@ -1,6 +1,6 @@
 # tests/test_users.py
-import pytest
 from fastapi import status
+
 from app.schemas import UserOut
 
 

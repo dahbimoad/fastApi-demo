@@ -5,7 +5,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from starlette import status
 from app.db import database
-from app import models, utils, oauth2
+from app import utils, oauth2, models
 
 router = APIRouter(tags=['Authentication'])
 

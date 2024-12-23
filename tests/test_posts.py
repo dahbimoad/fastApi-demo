@@ -1,6 +1,6 @@
 #this is  tests/test_posts.py
 import pytest
-from app import schemas, models
+from app import models, schemas
 
 
 @pytest.fixture

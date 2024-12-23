@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from app import oauth2
-from app.db.database import Base, get_db
+from app.db.database import get_db, Base
 from main import app
 
 # Test database configuration

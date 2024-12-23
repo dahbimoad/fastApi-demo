@@ -5,7 +5,7 @@ from fastapi.routing import  APIRouter
 from sqlalchemy.orm import Session
 from starlette import status
 from app.db.database import get_db
-from app import schemas, models, oauth2
+from app import oauth2, models, schemas
 from app.oauth2 import get_current_user
 from app.schemas import UserOut
 from app.utils import hash_password
@@ -54,7 +54,7 @@ def get_me(current_user: UserOut = Depends(get_current_user)):
     return current_user
 
 @router.get("/{id}",response_model=UserOut, status_code=status.HTTP_200_OK)
-def get_post( id : int, db: Session = Depends(get_db),current_user: schemas.UserOut = Depends(
+def get_post(id : int, db: Session = Depends(get_db), current_user: schemas.UserOut = Depends(
     oauth2.get_current_user)):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
