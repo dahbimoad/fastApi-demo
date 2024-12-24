@@ -8,10 +8,6 @@ from app.routers import auth, user, post
 
 import os
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
-
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -32,4 +28,8 @@ async def root():
     return {"message": "Hello World"}
 
 
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
 
