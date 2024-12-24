@@ -6,6 +6,12 @@ from app.core.config import settings
 from app.db.database import Base, engine
 from app.routers import auth, user, post
 
+import os
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
