@@ -64,3 +64,6 @@ htmlcov/
 # Additions for Your Project
 client/node_modules/
 *.http
+
+Server/venv/
+Server/__pycache__/
